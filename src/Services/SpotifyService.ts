@@ -35,11 +35,63 @@ export default class SpotifyService implements ISpotifyService {
     playlists: SpotifyApi.PlaylistObjectSimplified[],
     name: string
   ): Promise<void> => {
-    await this.spotifyApi.createPlaylist(this.userId, {
+    const res = await this.spotifyApi.createPlaylist(this.userId, {
       name,
-      description: `This playlist is a combination of ${playlists
-        .map(p => p.name)
+      description: `This playlist is a combination of:${playlists
+        .map(p => ` "${p.name}"`)
         .toString()}`
     });
+    console.log(res);
+
+    const tracks = await this.getUniqueTracks(playlists);
+    const trackUris = tracks.map(track => track.uri);
+
+    await this.addTracks(res.id, trackUris);
+  };
+
+  private addTracks = async (
+    playlistId: string,
+    trackUris: string[]
+  ): Promise<any> => {
+    for (let i = 0; i < trackUris.length / 99; i++) {
+      let chunk = trackUris.slice(i * 99, (i + 1) * 99);
+      console.log(chunk);
+      await this.spotifyApi.addTracksToPlaylist(playlistId, chunk);
+    }
+  };
+
+  private async getPlaylistTracks(
+    playlist: SpotifyApi.PlaylistObjectSimplified
+  ): Promise<SpotifyApi.PlaylistTrackObject[]> {
+    const getPlaylistTracksRecursive = async (
+      playlist: SpotifyApi.PlaylistObjectSimplified,
+      offset: number
+    ): Promise<SpotifyApi.PlaylistTrackObject[]> => {
+      const res = await this.spotifyApi.getPlaylistTracks(playlist.id, {
+        offset,
+        limit: 100
+      });
+      return res.items.length < 100
+        ? res.items
+        : res.items.concat(
+            await getPlaylistTracksRecursive(playlist, offset + 100)
+          );
+    };
+    const tracks = await getPlaylistTracksRecursive(playlist, 0);
+    return tracks;
+  }
+
+  private getUniqueTracks = async (
+    playlists: SpotifyApi.PlaylistObjectSimplified[]
+  ): Promise<SpotifyApi.TrackObjectFull[]> => {
+    let tracksRes: SpotifyApi.PlaylistTrackObject[] = [];
+    for (let i = 0; i < playlists.length; i++) {
+      tracksRes = tracksRes.concat(await this.getPlaylistTracks(playlists[i]));
+    }
+    const tracks = tracksRes.map(tr => tr.track);
+    const tracksFiltered = tracks.filter(
+      (item, index, self) => self.findIndex(i => i.id === item.id) === index
+    );
+    return tracksFiltered;
   };
 }

@@ -55,6 +55,7 @@ export default class PlaylistCombiner extends React.PureComponent<
           playlists={selectedPlaylists}
           spotifyService={this.spotifyService}
         />
+        <br />
         {playlists &&
           playlists.map((playlist, key) => (
             <PlaylistRow

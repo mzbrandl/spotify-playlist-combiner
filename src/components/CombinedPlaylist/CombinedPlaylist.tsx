@@ -42,7 +42,8 @@ export default class CombinedPlaylist extends React.PureComponent<
           }}
         />
         <p>Selected playlists:</p>
-        {playlists && playlists.map(playlist => <p>{playlist.name}</p>)}
+        {playlists &&
+          playlists.map((playlist, key) => <p key={key}>{playlist.name}</p>)}
         <button
           onClick={() => spotifyService.createCombinedPlaylist(playlists, name)}
           disabled={!name}
