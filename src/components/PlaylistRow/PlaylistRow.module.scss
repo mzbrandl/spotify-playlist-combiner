@@ -1,0 +1,53 @@
+.playlistRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  flex: 1 1 0px;
+
+  .leftWrapper {
+    display: flex;
+
+    img {
+      min-width: 60px;
+      min-height: 60px;
+    }
+
+    .textWrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: inherit;
+      margin-left: 5px;
+
+      > h5 {
+        margin: 0px;
+        font-size: 15pt;
+        font-weight: 500;
+      }
+
+      .subInfo {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 2px;
+        max-height: fit-content;
+
+        p {
+          font-size: 10pt;
+          margin: 0px;
+        }
+      }
+    }
+  }
+
+  input[type="checkbox"] {
+    align-self: center;
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+    transform: scale(1.5);
+    margin: 20px;
+  }
+}

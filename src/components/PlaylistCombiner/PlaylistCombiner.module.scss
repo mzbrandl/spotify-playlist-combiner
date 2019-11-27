@@ -1,0 +1,39 @@
+.playlistCombiner {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+
+  > h1 {
+    align-self: center;
+  }
+
+  > p {
+    align-self: center;
+    margin-bottom: 3em;
+  }
+
+  .loginButton {
+    margin-top: 2em;
+    align-self: center;
+  }
+
+  input {
+    max-width: 250px;
+    margin-bottom: 8px;
+  }
+
+  .horWraper {
+    display: flex;
+    justify-content: space-between;
+
+    .playlistRows {
+      display: flex;
+      flex-direction: column;
+
+      p {
+        margin-top: 0px;
+      }
+    }
+  }
+}

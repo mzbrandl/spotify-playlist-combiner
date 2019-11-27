@@ -1,14 +1,17 @@
 import React from "react";
-import "./PlaylistCombiner.css";
+
 import PlaylistRow from "../PlaylistRow/PlaylistRow";
 import CombinedPlaylist from "../CombinedPlaylist/CombinedPlaylist";
-import ISpotifyService from "../../Services/ISpotifyService";
-import SpotifyService from "../../Services/SpotifyService";
+import ISpotifyService from "../../services/ISpotifyService";
+import SpotifyService from "../../services/SpotifyService";
+
+import styles from "./PlaylistCombiner.module.scss";
 
 export interface IPlaylistCombinerState {
   isLoggedin: boolean;
   playlists: SpotifyApi.PlaylistObjectSimplified[];
   selectedPlaylists: SpotifyApi.PlaylistObjectSimplified[];
+  filter: string;
 }
 
 export default class PlaylistCombiner extends React.PureComponent<
@@ -20,10 +23,14 @@ export default class PlaylistCombiner extends React.PureComponent<
   constructor() {
     super({});
 
+    const params = this.getHashParams();
+    const isLoggedin = params.access_token && true;
+
     this.state = {
-      isLoggedin: false,
+      isLoggedin,
       playlists: [],
-      selectedPlaylists: []
+      selectedPlaylists: [],
+      filter: ""
     };
   }
 
@@ -41,33 +48,73 @@ export default class PlaylistCombiner extends React.PureComponent<
   }
 
   public render() {
-    const { isLoggedin, playlists, selectedPlaylists } = this.state;
+    const { isLoggedin, playlists, selectedPlaylists, filter } = this.state;
 
-    return (
-      <div className="PlaylistCombiner">
-        <h1>Spotify Playlist Combiner</h1>
-        {!isLoggedin && (
+    if (isLoggedin) {
+      return (
+        <div className={styles.playlistCombiner}>
+          <h1>Spotify Playlist Combiner</h1>
+          <p>
+            This site allows you to create Spotify playlist by combining
+            playlists, which you are already following.
+          </p>
+          <div className={styles.horWraper}>
+            <div className={styles.playlistRows}>
+              <p>Select playlists you want to combine</p>
+              Filter:
+              {
+                <input
+                  type="text"
+                  value={filter}
+                  onChange={e => {
+                    const filter = e.target.value;
+                    this.setState(prevState => ({
+                      ...prevState,
+                      filter
+                    }));
+                  }}
+                ></input>
+              }
+              {playlists
+                .filter(
+                  p =>
+                    p.name.toLowerCase().includes(filter.toLowerCase()) ||
+                    p.owner.display_name
+                      .toLowerCase()
+                      .includes(filter.toLowerCase())
+                )
+                .map((playlist, key) => (
+                  <PlaylistRow
+                    playlist={playlist}
+                    key={key}
+                    handelSelectedPlaylists={this.handelSelectedPlaylists}
+                  />
+                ))}
+            </div>
+            <CombinedPlaylist
+              playlists={selectedPlaylists}
+              spotifyService={this.spotifyService}
+            />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.playlistCombiner}>
+          <h1>Spotify Playlist Combiner</h1>
+          <p>
+            This site allows you to create Spotify playlist by combining
+            playlists, which you are already following.
+          </p>
           <a
+            className={styles.loginButton}
             href={"https://spotify-playlist-combiner-serv.herokuapp.com/login"}
           >
             <button>Login with Spotify</button>
           </a>
-        )}
-        <CombinedPlaylist
-          playlists={selectedPlaylists}
-          spotifyService={this.spotifyService}
-        />
-        <br />
-        {playlists &&
-          playlists.map((playlist, key) => (
-            <PlaylistRow
-              playlist={playlist}
-              key={key}
-              handelSelectedPlaylists={this.handelSelectedPlaylists}
-            />
-          ))}
-      </div>
-    );
+        </div>
+      );
+    }
   }
 
   private handelSelectedPlaylists = (

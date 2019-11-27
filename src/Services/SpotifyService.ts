@@ -27,7 +27,6 @@ export default class SpotifyService implements ISpotifyService {
         : res.items.concat(await getPlaylistsRecursive(offset + 50));
     };
     const playlists = await getPlaylistsRecursive(0);
-    console.log(playlists);
     return playlists;
   }
 
@@ -41,7 +40,6 @@ export default class SpotifyService implements ISpotifyService {
         .map(p => ` "${p.name}"`)
         .toString()}`
     });
-    console.log(res);
 
     const tracks = await this.getUniqueTracks(playlists);
     const trackUris = tracks.map(track => track.uri);
@@ -55,7 +53,6 @@ export default class SpotifyService implements ISpotifyService {
   ): Promise<any> => {
     for (let i = 0; i < trackUris.length / 99; i++) {
       let chunk = trackUris.slice(i * 99, (i + 1) * 99);
-      console.log(chunk);
       await this.spotifyApi.addTracksToPlaylist(playlistId, chunk);
     }
   };

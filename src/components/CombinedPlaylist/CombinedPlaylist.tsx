@@ -1,5 +1,7 @@
 import React from "react";
-import ISpotifyService from "../../Services/ISpotifyService";
+import ISpotifyService from "../../services/ISpotifyService";
+
+import styles from "./CombinedPlaylist.module.scss";
 
 export interface ICombinedPlaylistProps {
   playlists: SpotifyApi.PlaylistObjectSimplified[];
@@ -27,8 +29,12 @@ export default class CombinedPlaylist extends React.PureComponent<
     const { playlists, spotifyService } = this.props;
     const { name } = this.state;
     return (
-      <div>
-        <p>Name of the combined playlist:</p>
+      <div
+        className={
+          playlists.length > 0 ? styles.combinedPlaylist : styles.hidden
+        }
+      >
+        <b>Name of the combined playlist:</b>
         <input
           type="text"
           placeholder="Playlist name"
@@ -42,8 +48,12 @@ export default class CombinedPlaylist extends React.PureComponent<
           }}
         />
         <p>Selected playlists:</p>
-        {playlists &&
-          playlists.map((playlist, key) => <p key={key}>{playlist.name}</p>)}
+        <ul>
+          {playlists &&
+            playlists.map((playlist, key) => (
+              <li key={key}>{playlist.name}</li>
+            ))}
+        </ul>
         <button
           onClick={() => spotifyService.createCombinedPlaylist(playlists, name)}
           disabled={!name}

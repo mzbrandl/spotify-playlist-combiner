@@ -1,0 +1,60 @@
+.combinedPlaylist {
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  width: -webkit-fill-available;
+  height: fit-content;
+  //   visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s linear;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+
+  > b {
+    font-weight: 500;
+  }
+
+  > p {
+    margin: 0px;
+  }
+
+  > input {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  > ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+}
+
+.hidden {
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  width: -webkit-fill-available;
+  //   visibility: hidden;
+  height: fit-content;
+  opacity: 0;
+  transition: visibility 0.5s 0.5s, opacity 0.5s linear;
+
+  > b {
+    font-weight: 500;
+  }
+
+  > p {
+    margin: 0px;
+  }
+
+  > input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  > ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+}
