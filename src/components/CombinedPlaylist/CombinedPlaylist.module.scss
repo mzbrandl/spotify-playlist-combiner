@@ -3,6 +3,7 @@
   flex-direction: column;
   max-width: 250px;
   width: -webkit-fill-available;
+  width: -moz-available;
   height: fit-content;
   //   visibility: visible;
   opacity: 1;
@@ -35,6 +36,7 @@
   flex-direction: column;
   max-width: 250px;
   width: -webkit-fill-available;
+  width: -moz-available;
   //   visibility: hidden;
   height: fit-content;
   opacity: 0;
