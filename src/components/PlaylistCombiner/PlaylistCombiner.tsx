@@ -47,7 +47,9 @@ export default class PlaylistCombiner extends React.PureComponent<
       <div className="PlaylistCombiner">
         <h1>Spotify Playlist Combiner</h1>
         {!isLoggedin && (
-          <a href={"http://localhost:8888/login"}>
+          <a
+            href={"https://spotify-playlist-combiner-serv.herokuapp.com/login"}
+          >
             <button>Login with Spotify</button>
           </a>
         )}
