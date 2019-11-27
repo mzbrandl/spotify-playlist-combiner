@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/spotify-playlist-combiner/static/css/main.f62e64b1.chunk.css",
+    "main.css": "/spotify-playlist-combiner/static/css/main.87cf5d95.chunk.css",
     "main.js": "/spotify-playlist-combiner/static/js/main.d16442c2.chunk.js",
     "main.js.map": "/spotify-playlist-combiner/static/js/main.d16442c2.chunk.js.map",
     "runtime-main.js": "/spotify-playlist-combiner/static/js/runtime-main.0ef68b58.js",
@@ -8,14 +8,14 @@
     "static/js/2.da19e10f.chunk.js": "/spotify-playlist-combiner/static/js/2.da19e10f.chunk.js",
     "static/js/2.da19e10f.chunk.js.map": "/spotify-playlist-combiner/static/js/2.da19e10f.chunk.js.map",
     "index.html": "/spotify-playlist-combiner/index.html",
-    "precache-manifest.d32581b6bd85199cba2bdf9e638df45d.js": "/spotify-playlist-combiner/precache-manifest.d32581b6bd85199cba2bdf9e638df45d.js",
+    "precache-manifest.a0bc7b204c262dad83c7fc77b9e2a23b.js": "/spotify-playlist-combiner/precache-manifest.a0bc7b204c262dad83c7fc77b9e2a23b.js",
     "service-worker.js": "/spotify-playlist-combiner/service-worker.js",
-    "static/css/main.f62e64b1.chunk.css.map": "/spotify-playlist-combiner/static/css/main.f62e64b1.chunk.css.map"
+    "static/css/main.87cf5d95.chunk.css.map": "/spotify-playlist-combiner/static/css/main.87cf5d95.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.0ef68b58.js",
     "static/js/2.da19e10f.chunk.js",
-    "static/css/main.f62e64b1.chunk.css",
+    "static/css/main.87cf5d95.chunk.css",
     "static/js/main.d16442c2.chunk.js"
   ]
 }
