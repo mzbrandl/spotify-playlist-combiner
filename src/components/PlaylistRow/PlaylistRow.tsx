@@ -4,28 +4,18 @@ import styles from "./PlaylistRow.module.scss";
 
 export interface IPlaylistRowProps {
   playlist: SpotifyApi.PlaylistObjectSimplified;
+  isChecked: boolean;
   handelSelectedPlaylists(
     playlist: SpotifyApi.PlaylistObjectSimplified,
     isChecked: boolean
   );
 }
 
-export interface IPlaylistRowState {
-  isChecked: boolean;
-}
 
-export default class PlaylistRow extends React.PureComponent<
-  IPlaylistRowProps,
-  IPlaylistRowState
-> {
-  constructor(props) {
-    super(props);
-    this.state = { isChecked: false };
-  }
+export default class PlaylistRow extends React.PureComponent<IPlaylistRowProps> {
 
   public render() {
-    const { playlist } = this.props;
-    const { isChecked } = this.state;
+    const { playlist, isChecked } = this.props;
     return (
       <div className={styles.playlistRow}>
         <div className={styles.leftWrapper}>
@@ -57,10 +47,6 @@ export default class PlaylistRow extends React.PureComponent<
 
   handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const { handelSelectedPlaylists, playlist } = this.props;
-    this.setState(prevState => ({
-      ...prevState,
-      isChecked: !prevState.isChecked
-    }));
     handelSelectedPlaylists(playlist, e.target.checked);
   }
 }

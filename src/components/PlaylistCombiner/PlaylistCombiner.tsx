@@ -17,7 +17,7 @@ export interface IPlaylistCombinerState {
 export default class PlaylistCombiner extends React.PureComponent<
   {},
   IPlaylistCombinerState
-> {
+  > {
   private spotifyService: ISpotifyService;
 
   constructor() {
@@ -75,25 +75,28 @@ export default class PlaylistCombiner extends React.PureComponent<
                   }}
                 ></input>
               }
-              {playlists
-                .filter(
+              {playlists.length > 0
+                ? playlists.filter(
                   p =>
                     p.name.toLowerCase().includes(filter.toLowerCase()) ||
                     p.owner.display_name
                       .toLowerCase()
                       .includes(filter.toLowerCase())
                 )
-                .map((playlist, key) => (
-                  <PlaylistRow
-                    playlist={playlist}
-                    key={key}
-                    handelSelectedPlaylists={this.handelSelectedPlaylists}
-                  />
-                ))}
+                  .map((playlist, key) => (
+                    <PlaylistRow
+                      playlist={playlist}
+                      key={key}
+                      isChecked={selectedPlaylists.includes(playlist)}
+                      handelSelectedPlaylists={this.handelSelectedPlaylists}
+                    />
+                  ))
+                : 'loading playlists...'}
             </div>
             <CombinedPlaylist
               playlists={selectedPlaylists}
               spotifyService={this.spotifyService}
+              clearSelection={this.clearSelection}
             />
           </div>
         </div>
@@ -115,6 +118,15 @@ export default class PlaylistCombiner extends React.PureComponent<
         </div>
       );
     }
+  }
+
+  private clearSelection = (): void => {
+    console.log("this.clearSelection");
+    this.setState(prevState => ({
+      ...prevState,
+      selectedPlaylists: [],
+      filter: ""
+    }));
   }
 
   private handelSelectedPlaylists = (
