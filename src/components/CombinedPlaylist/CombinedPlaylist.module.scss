@@ -2,15 +2,16 @@
   display: flex;
   flex-direction: column;
   max-width: 250px;
-  width: -webkit-fill-available;
-  width: -moz-available;
+  width: 30%;
   height: fit-content;
-  //   visibility: visible;
   opacity: 1;
   transition: opacity 0.5s linear;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  padding-top: 1vw;
 
   > b {
     font-weight: 500;
@@ -28,35 +29,35 @@
   > ul {
     margin-top: 8px;
     margin-bottom: 8px;
-  }
-}
 
-.hidden {
-  display: flex;
-  flex-direction: column;
-  max-width: 250px;
-  width: -webkit-fill-available;
-  width: -moz-available;
-  //   visibility: hidden;
-  height: fit-content;
-  opacity: 0;
-  transition: visibility 0.5s 0.5s, opacity 0.5s linear;
-
-  > b {
-    font-weight: 500;
+    > li {
+      table-layout: fixed;
+      width: 100%;
+      word-wrap: break-word;
+    }
   }
 
-  > p {
-    margin: 0px;
+  .msg1 {
+    opacity: 0%;
+    text-align: center;
+    animation-name: fadeInOut;
+    animation-duration: 2s;
   }
 
-  > input {
-    margin-top: 5px;
-    margin-bottom: 5px;
+  .msg2 {
+    opacity: 0%;
   }
 
-  > ul {
-    margin-top: 8px;
-    margin-bottom: 8px;
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+    40%,
+    70% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0%;
+    }
   }
 }

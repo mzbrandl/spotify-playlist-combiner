@@ -1,16 +1,27 @@
 .playlistCombiner {
   display: flex;
   flex-direction: column;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
+  width: calc(100vw - (100vw - 100%));
+  // overflow-x: hidden;
+  // overflow-y: hidden;
+
+  // @media screen and (max-width: 760px){
+  //   .container{ width: 100vw; margin: 0; padding: 0; }
+  // }
 
   > h1 {
     align-self: center;
+    margin-left: 1vw;
+    margin-right: 1vw;
   }
 
   > p {
     align-self: center;
     margin-bottom: 3em;
+    margin-left: 1vw;
+    margin-right: 1vw;
   }
 
   .loginButton {
@@ -30,6 +41,10 @@
     .playlistRows {
       display: flex;
       flex-direction: column;
+      width: 70%;
+      margin-left: 1vw;
+      margin-right: 1vw;
+      padding-top: 1vw;
 
       p {
         margin-top: 0px;
