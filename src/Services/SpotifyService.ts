@@ -51,6 +51,7 @@ export default class SpotifyService implements ISpotifyService {
     playlistId: string,
     trackUris: string[]
   ): Promise<any> => {
+    trackUris = trackUris.filter(uri => !uri.includes('local')); // Ignore local tracks
     for (let i = 0; i < trackUris.length / 99; i++) {
       let chunk = trackUris.slice(i * 99, (i + 1) * 99);
       await this.spotifyApi.addTracksToPlaylist(playlistId, chunk);
@@ -71,8 +72,8 @@ export default class SpotifyService implements ISpotifyService {
       return res.items.length < 100
         ? res.items
         : res.items.concat(
-            await getPlaylistTracksRecursive(playlist, offset + 100)
-          );
+          await getPlaylistTracksRecursive(playlist, offset + 100)
+        );
     };
     const tracks = await getPlaylistTracksRecursive(playlist, 0);
     return tracks;
