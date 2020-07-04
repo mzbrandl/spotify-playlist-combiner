@@ -14,4 +14,6 @@ export default interface ISpotifyService {
     playlists: SpotifyApi.PlaylistObjectSimplified[],
     name: string
   ): Promise<void>;
+
+  play(res: any);
 }

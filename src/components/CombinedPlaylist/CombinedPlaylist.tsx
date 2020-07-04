@@ -2,6 +2,7 @@ import React from "react";
 import ISpotifyService from "../../services/ISpotifyService";
 
 import styles from "./CombinedPlaylist.module.scss";
+import SpotifyService from "../../services/SpotifyService";
 
 export interface ICombinedPlaylistProps {
   playlists: SpotifyApi.PlaylistObjectSimplified[];
@@ -12,15 +13,16 @@ export interface ICombinedPlaylistProps {
 export interface ICombinedPlaylistState {
   name: string;
   showSuccessMsg: boolean;
+  res: any;
 }
 
 export default class CombinedPlaylist extends React.PureComponent<
   ICombinedPlaylistProps,
   ICombinedPlaylistState
-  > {
+> {
   constructor(props) {
     super(props);
-    this.state = { name: "", showSuccessMsg: false };
+    this.state = { name: "", showSuccessMsg: false, res: null };
   }
 
   componentWillReceiveProps() {
@@ -32,19 +34,6 @@ export default class CombinedPlaylist extends React.PureComponent<
     const { name, showSuccessMsg } = this.state;
     return (
       <div className={styles.combinedPlaylist}>
-        <b>Name of the combined playlist:</b>
-        <input
-          type="text"
-          placeholder="Playlist name"
-          value={name}
-          onChange={e => {
-            const name = e.target.value;
-            this.setState(prevState => ({
-              ...prevState,
-              name
-            }));
-          }}
-        />
         <p>Selected playlists:</p>
         <ul>
           {playlists &&
@@ -54,29 +43,39 @@ export default class CombinedPlaylist extends React.PureComponent<
         </ul>
         <button
           onClick={() => this.onCreatePlaylistClick()}
-          disabled={!name || playlists.length === 0}
+          disabled={playlists.length === 0}
         >
           Create combined playlist
         </button>
-        <h5 className={showSuccessMsg ? styles.msg1 : styles.msg2}>Created Playlist!</h5>
+        <h5 className={showSuccessMsg ? styles.msg1 : styles.msg2}>
+          Created Playlist!
+        </h5>
       </div>
     );
   }
 
-  private onCreatePlaylistClick = () => {
+  async onPlayClick(): Promise<void> {
+    const { spotifyService } = this.props;
+    const { res } = this.state;
+
+    await spotifyService.play(res);
+  }
+
+  private onCreatePlaylistClick = async () => {
     const { spotifyService, playlists, clearSelection } = this.props;
     const { name } = this.state;
 
-    spotifyService.createCombinedPlaylist(playlists, name);
+    const res = await spotifyService.createCombinedPlaylist(playlists, name);
     clearSelection();
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
+      res,
       showSuccessMsg: true,
-      name: ""
+      name: "",
     }));
     setTimeout(() => {
-      this.setState(prevState => ({ ...prevState, showSuccessMsg: false }))
-    }, 2000)
-  }
+      this.setState((prevState) => ({ ...prevState, showSuccessMsg: false }));
+    }, 2000);
+  };
 }

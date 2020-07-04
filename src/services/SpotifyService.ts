@@ -20,7 +20,7 @@ export default class SpotifyService implements ISpotifyService {
     ): Promise<SpotifyApi.PlaylistObjectSimplified[]> => {
       const res = await this.spotifyApi.getUserPlaylists(this.userId, {
         limit: 50,
-        offset
+        offset,
       });
       return res.items.length < 50
         ? res.items
@@ -35,23 +35,33 @@ export default class SpotifyService implements ISpotifyService {
     name: string
   ): Promise<void> => {
     const res = await this.spotifyApi.createPlaylist(this.userId, {
-      name,
+      name: "combined playlist",
       description: `This playlist is a combination of:${playlists
-        .map(p => ` "${p.name}"`)
-        .toString()}`
+        .map((p) => ` "${p.name}"`)
+        .toString()}`,
     });
 
     const tracks = await this.getUniqueTracks(playlists);
-    const trackUris = tracks.map(track => track.uri);
+    const trackUris = tracks.map((track) => track.uri);
 
     await this.addTracks(res.id, trackUris);
+
+    await this.spotifyApi.play({ context_uri: res.uri });
+
+    await this.spotifyApi.setShuffle(true);
+
+    await this.spotifyApi.unfollowPlaylist(res.id);
+  };
+
+  public play = async (res: any) => {
+    await this.spotifyApi.play({ context_uri: res.uri });
   };
 
   private addTracks = async (
     playlistId: string,
     trackUris: string[]
   ): Promise<any> => {
-    trackUris = trackUris.filter(uri => !uri.includes('local')); // Ignore local tracks
+    trackUris = trackUris.filter((uri) => !uri.includes("local")); // Ignore local tracks
     for (let i = 0; i < trackUris.length / 99; i++) {
       let chunk = trackUris.slice(i * 99, (i + 1) * 99);
       await this.spotifyApi.addTracksToPlaylist(playlistId, chunk);
@@ -67,13 +77,13 @@ export default class SpotifyService implements ISpotifyService {
     ): Promise<SpotifyApi.PlaylistTrackObject[]> => {
       const res = await this.spotifyApi.getPlaylistTracks(playlist.id, {
         offset,
-        limit: 100
+        limit: 100,
       });
       return res.items.length < 100
         ? res.items
         : res.items.concat(
-          await getPlaylistTracksRecursive(playlist, offset + 100)
-        );
+            await getPlaylistTracksRecursive(playlist, offset + 100)
+          );
     };
     const tracks = await getPlaylistTracksRecursive(playlist, 0);
     return tracks;
@@ -86,9 +96,9 @@ export default class SpotifyService implements ISpotifyService {
     for (let i = 0; i < playlists.length; i++) {
       tracksRes = tracksRes.concat(await this.getPlaylistTracks(playlists[i]));
     }
-    const tracks = tracksRes.map(tr => tr.track);
+    const tracks = tracksRes.map((tr) => tr.track);
     const tracksFiltered = tracks.filter(
-      (item, index, self) => self.findIndex(i => i.id === item.id) === index
+      (item, index, self) => self.findIndex((i) => i.id === item.id) === index
     );
     return tracksFiltered;
   };
