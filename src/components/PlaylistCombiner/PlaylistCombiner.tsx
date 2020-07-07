@@ -1,9 +1,10 @@
 import React from "react";
 
 import PlaylistRow from "../PlaylistRow/PlaylistRow";
-import CombinedPlaylist from "../CombinedPlaylist/CombinedPlaylist";
 import ISpotifyService from "../../services/ISpotifyService";
 import SpotifyService from "../../services/SpotifyService";
+
+import * as Play from "../../assets/play.png";
 
 import styles from "./PlaylistCombiner.module.scss";
 
@@ -17,7 +18,7 @@ export interface IPlaylistCombinerState {
 export default class PlaylistCombiner extends React.PureComponent<
   {},
   IPlaylistCombinerState
-  > {
+> {
   private spotifyService: ISpotifyService;
 
   constructor() {
@@ -30,7 +31,7 @@ export default class PlaylistCombiner extends React.PureComponent<
       isLoggedin,
       playlists: [],
       selectedPlaylists: [],
-      filter: ""
+      filter: "",
     };
   }
 
@@ -39,10 +40,10 @@ export default class PlaylistCombiner extends React.PureComponent<
     if (params.access_token) {
       this.spotifyService = await SpotifyService.create(params.access_token);
       const playlists = await this.spotifyService.getPlaylists();
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         ...prevState,
         isLoggedin: true,
-        playlists
+        playlists,
       }));
     }
   }
@@ -66,38 +67,47 @@ export default class PlaylistCombiner extends React.PureComponent<
                 <input
                   type="text"
                   value={filter}
-                  onChange={e => {
+                  onChange={(e) => {
                     const filter = e.target.value;
-                    this.setState(prevState => ({
+                    this.setState((prevState) => ({
                       ...prevState,
-                      filter
+                      filter,
                     }));
                   }}
                 ></input>
               }
               {playlists.length > 0
-                ? playlists.filter(
-                  p =>
-                    p.name.toLowerCase().includes(filter.toLowerCase()) ||
-                    p.owner.display_name
-                      .toLowerCase()
-                      .includes(filter.toLowerCase())
-                )
-                  .map((playlist, key) => (
-                    <PlaylistRow
-                      playlist={playlist}
-                      key={key}
-                      isChecked={selectedPlaylists.includes(playlist)}
-                      handelSelectedPlaylists={this.handelSelectedPlaylists}
-                    />
-                  ))
-                : 'loading playlists...'}
+                ? playlists
+                    .filter(
+                      (p) =>
+                        p.name.toLowerCase().includes(filter.toLowerCase()) ||
+                        p.owner.display_name
+                          .toLowerCase()
+                          .includes(filter.toLowerCase())
+                    )
+                    .map((playlist, key) => (
+                      <PlaylistRow
+                        playlist={playlist}
+                        key={key}
+                        isChecked={selectedPlaylists.includes(playlist)}
+                        handelSelectedPlaylists={this.handelSelectedPlaylists}
+                      />
+                    ))
+                : "loading playlists..."}
             </div>
-            <CombinedPlaylist
-              playlists={selectedPlaylists}
-              spotifyService={this.spotifyService}
-              clearSelection={this.clearSelection}
-            />
+            {selectedPlaylists.length > 1 && (
+              <button
+                onClick={this.onCreatePlaylistClick}
+                className={
+                  selectedPlaylists.length > 1
+                    ? styles.createButton
+                    : styles.msg2
+                }
+                disabled={selectedPlaylists.length < 2}
+              >
+                <img src={Play.default} alt="Play" />
+              </button>
+            )}
           </div>
         </div>
       );
@@ -120,14 +130,21 @@ export default class PlaylistCombiner extends React.PureComponent<
     }
   }
 
+  private onCreatePlaylistClick = async () => {
+    const { selectedPlaylists } = this.state;
+
+    await this.spotifyService.createCombinedPlaylist(selectedPlaylists);
+    this.clearSelection();
+  };
+
   private clearSelection = (): void => {
     console.log("this.clearSelection");
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       selectedPlaylists: [],
-      filter: ""
+      filter: "",
     }));
-  }
+  };
 
   private handelSelectedPlaylists = (
     playlist: SpotifyApi.PlaylistObjectSimplified,
@@ -141,7 +158,7 @@ export default class PlaylistCombiner extends React.PureComponent<
       ? selectedPlaylists.push(playlist)
       : selectedPlaylists.splice(selectedPlaylists.indexOf(playlist), 1);
 
-    this.setState(prevState => ({ ...prevState, selectedPlaylists }));
+    this.setState((prevState) => ({ ...prevState, selectedPlaylists }));
     this.forceUpdate();
   };
 

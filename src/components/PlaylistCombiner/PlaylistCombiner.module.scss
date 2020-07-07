@@ -4,6 +4,8 @@
   max-width: 1000px;
   margin: 0 auto;
   width: calc(100vw - (100vw - 100%));
+  background-color: #121212;
+  color: #fefefe;
   // overflow-x: hidden;
   // overflow-y: hidden;
 
@@ -41,13 +43,57 @@
     .playlistRows {
       display: flex;
       flex-direction: column;
-      width: 70%;
+      width: 100%;
       margin-left: 1vw;
       margin-right: 1vw;
       padding-top: 1vw;
 
       p {
         margin-top: 0px;
+      }
+    }
+
+    .createButton {
+      position: fixed;
+      right: 3em;
+      bottom: 3em;
+      background-color: #1db954;
+      border-style: none;
+      opacity: 100%;
+      animation-name: fadeIn;
+      animation-duration: 1s;
+      width: 50px;
+      height: 50px;
+      padding: 0;
+      border-radius: 25px;
+
+      > img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .msg2 {
+      opacity: 100%;
+      animation-name: fadeOut;
+      animation-duration: 1s;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
       }
     }
   }

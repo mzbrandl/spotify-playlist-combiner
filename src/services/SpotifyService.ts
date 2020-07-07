@@ -31,11 +31,10 @@ export default class SpotifyService implements ISpotifyService {
   }
 
   public createCombinedPlaylist = async (
-    playlists: SpotifyApi.PlaylistObjectSimplified[],
-    name: string
+    playlists: SpotifyApi.PlaylistObjectSimplified[]
   ): Promise<void> => {
     const res = await this.spotifyApi.createPlaylist(this.userId, {
-      name: "combined playlist",
+      name: "Combined playlist",
       description: `This playlist is a combination of:${playlists
         .map((p) => ` "${p.name}"`)
         .toString()}`,

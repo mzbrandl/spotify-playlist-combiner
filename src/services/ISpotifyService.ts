@@ -11,8 +11,7 @@ export default interface ISpotifyService {
    * @param name The name of the combined playlist
    */
   createCombinedPlaylist(
-    playlists: SpotifyApi.PlaylistObjectSimplified[],
-    name: string
+    playlists: SpotifyApi.PlaylistObjectSimplified[]
   ): Promise<void>;
 
   play(res: any);
