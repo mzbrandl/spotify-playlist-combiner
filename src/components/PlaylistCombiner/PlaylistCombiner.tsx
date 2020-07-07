@@ -1,4 +1,6 @@
 import React from "react";
+import ClipLoader from "react-spinners/ClipLoader";
+import { css } from "@emotion/core";
 
 import PlaylistRow from "../PlaylistRow/PlaylistRow";
 import ISpotifyService from "../../services/ISpotifyService";
@@ -13,6 +15,7 @@ export interface IPlaylistCombinerState {
   playlists: SpotifyApi.PlaylistObjectSimplified[];
   selectedPlaylists: SpotifyApi.PlaylistObjectSimplified[];
   filter: string;
+  loggingIn: boolean;
 }
 
 export default class PlaylistCombiner extends React.PureComponent<
@@ -32,6 +35,7 @@ export default class PlaylistCombiner extends React.PureComponent<
       playlists: [],
       selectedPlaylists: [],
       filter: "",
+      loggingIn: false,
     };
   }
 
@@ -49,7 +53,13 @@ export default class PlaylistCombiner extends React.PureComponent<
   }
 
   public render() {
-    const { isLoggedin, playlists, selectedPlaylists, filter } = this.state;
+    const {
+      isLoggedin,
+      playlists,
+      selectedPlaylists,
+      filter,
+      loggingIn,
+    } = this.state;
 
     if (isLoggedin) {
       return (
@@ -61,11 +71,11 @@ export default class PlaylistCombiner extends React.PureComponent<
           </p>
           <div className={styles.horWraper}>
             <div className={styles.playlistRows}>
-              <p>Select playlists you want to combine</p>
-              Filter:
-              {
+              <div className={styles.controls}>
                 <input
-                  type="text"
+                  type="search"
+                  className={styles.filter}
+                  placeholder="Filter"
                   value={filter}
                   onChange={(e) => {
                     const filter = e.target.value;
@@ -74,40 +84,54 @@ export default class PlaylistCombiner extends React.PureComponent<
                       filter,
                     }));
                   }}
-                ></input>
-              }
-              {playlists.length > 0
-                ? playlists
-                    .filter(
-                      (p) =>
-                        p.name.toLowerCase().includes(filter.toLowerCase()) ||
-                        p.owner.display_name
-                          .toLowerCase()
-                          .includes(filter.toLowerCase())
-                    )
-                    .map((playlist, key) => (
-                      <PlaylistRow
-                        playlist={playlist}
-                        key={key}
-                        isChecked={selectedPlaylists.includes(playlist)}
-                        handelSelectedPlaylists={this.handelSelectedPlaylists}
-                      />
-                    ))
-                : "loading playlists..."}
+                />
+                <button
+                  className={styles.clearBtn}
+                  onClick={this.clearSelection}
+                >
+                  Clear
+                </button>
+              </div>
+              {playlists.length > 0 ? (
+                playlists
+                  .filter(
+                    (p) =>
+                      p.name.toLowerCase().includes(filter.toLowerCase()) ||
+                      p.owner.display_name
+                        .toLowerCase()
+                        .includes(filter.toLowerCase())
+                  )
+                  .map((playlist, key) => (
+                    <PlaylistRow
+                      playlist={playlist}
+                      key={key}
+                      isChecked={selectedPlaylists.includes(playlist)}
+                      handelSelectedPlaylists={this.handelSelectedPlaylists}
+                    />
+                  ))
+              ) : (
+                <div className={styles.loadingPlaylists}>
+                  <ClipLoader
+                    css={css`
+                      align-self: center;
+                    `}
+                    size={30}
+                    color={"#1db954"}
+                    loading={true}
+                  />
+                  <text>Loading playlists...</text>
+                </div>
+              )}
             </div>
-            {selectedPlaylists.length > 1 && (
-              <button
-                onClick={this.onCreatePlaylistClick}
-                className={
-                  selectedPlaylists.length > 1
-                    ? styles.createButton
-                    : styles.msg2
-                }
-                disabled={selectedPlaylists.length < 2}
-              >
-                <img src={Play.default} alt="Play" />
-              </button>
-            )}
+            <button
+              onClick={this.onCreatePlaylistClick}
+              className={
+                selectedPlaylists.length > 1 ? styles.createButton : styles.hide
+              }
+              disabled={selectedPlaylists.length < 2}
+            >
+              <img src={Play.default} alt="Play" />
+            </button>
           </div>
         </div>
       );
@@ -120,11 +144,31 @@ export default class PlaylistCombiner extends React.PureComponent<
             playlists, which you are already following.
           </p>
           <a
-            className={styles.loginButton}
             href={"https://spotify-playlist-combiner-serv.herokuapp.com/login"}
+            style={{ alignSelf: "center" }}
           >
-            <button>Login with Spotify</button>
+            <button
+              className={styles.loginButton}
+              onClick={() =>
+                this.setState((prevState) => ({
+                  ...prevState,
+                  loggingIn: true,
+                }))
+              }
+              disabled={loggingIn}
+            >
+              Login with Spotify
+            </button>
           </a>
+          <ClipLoader
+            css={css`
+              align-self: center;
+              margin-top: 2em;
+            `}
+            size={50}
+            color={"#1db954"}
+            loading={loggingIn}
+          />
         </div>
       );
     }

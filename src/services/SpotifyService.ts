@@ -50,6 +50,8 @@ export default class SpotifyService implements ISpotifyService {
     await this.spotifyApi.setShuffle(true);
 
     await this.spotifyApi.unfollowPlaylist(res.id);
+
+    window.location.replace(res.uri);
   };
 
   public play = async (res: any) => {
