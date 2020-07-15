@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/spotify-playlist-combiner/static/css/main.681e7778.chunk.css",
-    "main.js": "/spotify-playlist-combiner/static/js/main.c7ff78d3.chunk.js",
-    "main.js.map": "/spotify-playlist-combiner/static/js/main.c7ff78d3.chunk.js.map",
-    "runtime-main.js": "/spotify-playlist-combiner/static/js/runtime-main.0ef68b58.js",
-    "runtime-main.js.map": "/spotify-playlist-combiner/static/js/runtime-main.0ef68b58.js.map",
-    "static/js/2.e08919ec.chunk.js": "/spotify-playlist-combiner/static/js/2.e08919ec.chunk.js",
-    "static/js/2.e08919ec.chunk.js.map": "/spotify-playlist-combiner/static/js/2.e08919ec.chunk.js.map",
-    "index.html": "/spotify-playlist-combiner/index.html",
-    "precache-manifest.16d647e18b0941961f38e70f8b44225d.js": "/spotify-playlist-combiner/precache-manifest.16d647e18b0941961f38e70f8b44225d.js",
-    "service-worker.js": "/spotify-playlist-combiner/service-worker.js",
-    "static/css/main.681e7778.chunk.css.map": "/spotify-playlist-combiner/static/css/main.681e7778.chunk.css.map"
+    "main.css": "https://spotitools.com/static/css/main.681e7778.chunk.css",
+    "main.js": "https://spotitools.com/static/js/main.26c8171b.chunk.js",
+    "main.js.map": "https://spotitools.com/static/js/main.26c8171b.chunk.js.map",
+    "runtime-main.js": "https://spotitools.com/static/js/runtime-main.b48bc3b0.js",
+    "runtime-main.js.map": "https://spotitools.com/static/js/runtime-main.b48bc3b0.js.map",
+    "static/js/2.e08919ec.chunk.js": "https://spotitools.com/static/js/2.e08919ec.chunk.js",
+    "static/js/2.e08919ec.chunk.js.map": "https://spotitools.com/static/js/2.e08919ec.chunk.js.map",
+    "index.html": "https://spotitools.com/index.html",
+    "precache-manifest.597914286806c4840fe6e5c0b18318f9.js": "https://spotitools.com/precache-manifest.597914286806c4840fe6e5c0b18318f9.js",
+    "service-worker.js": "https://spotitools.com/service-worker.js",
+    "static/css/main.681e7778.chunk.css.map": "https://spotitools.com/static/css/main.681e7778.chunk.css.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.0ef68b58.js",
+    "static/js/runtime-main.b48bc3b0.js",
     "static/js/2.e08919ec.chunk.js",
     "static/css/main.681e7778.chunk.css",
-    "static/js/main.c7ff78d3.chunk.js"
+    "static/js/main.26c8171b.chunk.js"
   ]
 }
