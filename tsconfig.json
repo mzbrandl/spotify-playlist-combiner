@@ -16,7 +16,8 @@
     "jsx": "react",
     "noImplicitAny": false,
     "strictNullChecks": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "baseUrl": "./src/"
   },
   "include": ["src", "src/custom.d.ts"]
 }

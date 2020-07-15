@@ -2,7 +2,7 @@ import React from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/core";
 
-import PlaylistRow from "../PlaylistRow/PlaylistRow";
+import PlaylistRow from "./PlaylistRow/PlaylistRow";
 import ISpotifyService from "../../services/ISpotifyService";
 import SpotifyService from "../../services/SpotifyService";
 

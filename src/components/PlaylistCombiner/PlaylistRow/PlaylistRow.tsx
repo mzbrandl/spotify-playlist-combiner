@@ -1,5 +1,5 @@
 import React from "react";
-import * as CheckMark from "../../assets/checkmark_green.png";
+import * as CheckMark from "../../../assets/checkmark_green.png";
 import styles from "./PlaylistRow.module.scss";
 
 export interface IPlaylistRowProps {
